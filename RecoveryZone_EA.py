@@ -13,7 +13,7 @@ import datetime
 
 #Input parameter, need change every single run
 symbol = "XAUUSD"  # Symbol of the financial instrument
-tp_price = 1951
+tp_price = 1952
 entry_price = 0 # set 0 if want to start with market order
 recovery_price = 1965
 direction = mt5.ORDER_TYPE_SELL #First order direction
@@ -105,7 +105,7 @@ while True:
             exit()
 
     #check if no pending order, create one
-    if  mt5.orders_total(symbol) == 0 and mt5.positions_get() < max_cycle:
+    if  mt5.orders_total(symbol) == 0 and mt5.positions_get(symbol) < max_cycle:
         print(date_string + ": Create recovery pending order")
         buy_volume = get_total_open_volume(mt5.POSITION_TYPE_BUY)
         sell_volume = get_total_open_volume(mt5.POSITION_TYPE_SELL)
