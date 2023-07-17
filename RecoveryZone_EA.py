@@ -12,13 +12,13 @@ import datetime
 
 
 #Input parameter, need change every single run
-symbol = "BTCUSD"  # Symbol of the financial instrument
-tp_price = 31000
+symbol = "XAUUSD"  # Symbol of the financial instrument
+tp_price = 1951
 entry_price = 0 # set 0 if want to start with market order
-recovery_price = 29000
-direction = mt5.ORDER_TYPE_BUY #First order direction
-tp_in_percent = 3 #TP in percent
-max_cycle = 5 #max cycle 
+recovery_price = 1965
+direction = mt5.ORDER_TYPE_SELL #First order direction
+tp_in_percent = 5 #TP in percent
+max_cycle = 4 #max cycle 
 
 
 # #Setup account
@@ -97,15 +97,15 @@ while True:
 
     if direction == mt5.ORDER_TYPE_BUY:
         if price_bid >= tp_price or price_bid <= recovery_tp_price:
-            close_all_positions_and_orders()
+            close_all_positions_and_orders(symbol)
             exit()
     elif direction == mt5.ORDER_TYPE_SELL:
         if price_ask <= tp_price or price_ask >= recovery_tp_price:
-            close_all_positions_and_orders()
+            close_all_positions_and_orders(symbol)
             exit()
 
     #check if no pending order, create one
-    if  mt5.orders_total() == 0:
+    if  mt5.orders_total(symbol) == 0 and mt5.positions_get() < max_cycle:
         print(date_string + ": Create recovery pending order")
         buy_volume = get_total_open_volume(mt5.POSITION_TYPE_BUY)
         sell_volume = get_total_open_volume(mt5.POSITION_TYPE_SELL)

@@ -220,14 +220,14 @@ def get_total_open_volume(direction):
     return total_buy_volume
     
 
-def close_all_positions_and_orders():
+def close_all_positions_and_orders(symbol):
     # Connect to MetaTrader 5 terminal
     if not mt5.initialize():
         print("Failed to initialize MetaTrader 5")
         return
 
     # Close all open positions
-    positions = mt5.positions_get()
+    positions = mt5.positions_get(symbol)
     for position in positions:
         result = close_position(position)
         if result.retcode != mt5.TRADE_RETCODE_DONE:
@@ -237,7 +237,7 @@ def close_all_positions_and_orders():
 
 
     # Close all pending orders
-    orders = mt5.orders_get()
+    orders = mt5.orders_get(symbol)
     for order in orders:
         # Close the order
         result = close_order(order)
